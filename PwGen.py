@@ -3,13 +3,14 @@ import secrets
 import string
 from argparse import ArgumentParser
 
+
 class Config:
     def __init__(self):
         self.args = Config.createArgs()
         self.clipboard = self.args.clipboard
         self.invisible = self.args.invisible
         self.length = self.args.n
-        #only touches if one of them is mentioned
+        # only touches if one of them is mentioned
         self.punctuation = self.uppercase = self.lowercase = self.digits = True
         if self.args.pun or self.args.upc or self.args.lwc or self.args.digits:
             self.digits = self.args.digits
@@ -45,10 +46,12 @@ class Config:
                              help='Digits')
         return parser.parse_args()
 
+
 def generate():
-    charset=assemblecharset()
-    s=rndmcharsfromset(charset)
+    charset = assemblecharset()
+    s = rndmcharsfromset(charset)
     return s
+
 
 def assemblecharset():
     chars = ''
@@ -62,9 +65,11 @@ def assemblecharset():
         chars += string.digits
     return chars
 
+
 def rndmcharsfromset(charset):
     s = ''.join(secrets.choice(charset) for _ in range(cfg.length))
     return s
+
 
 def output():
     if not cfg.invisible:
@@ -79,6 +84,6 @@ def output():
 
 
 if __name__ == "__main__":
-    cfg=Config()
-    pw=generate()
+    cfg = Config()
+    pw = generate()
     output()
