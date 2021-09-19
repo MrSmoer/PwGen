@@ -6,7 +6,7 @@ from argparse import ArgumentParser
 
 class Config:
     def __init__(self):
-        self.args = Config.createArgs()
+        self.args = Config.create_args()
         self.clipboard = self.args.clipboard
         self.invisible = self.args.invisible
         self.length = self.args.n
@@ -21,7 +21,7 @@ class Config:
             self.specified = True
 
     @staticmethod
-    def createArgs():
+    def create_args():
         parser = ArgumentParser()
         parser.add_argument_group('General Arguments')
         parser.add_argument('n', metavar='length', type=int, nargs='?', default=20,
@@ -49,7 +49,7 @@ class Config:
         return parser.parse_args()
 
 
-def validate_genconfig(s):
+def validate_modifiers(s):
     if not cfg.specified:
         return True
     if cfg.punctuation and not bool([ele for ele in string.punctuation if(ele in s)]):
@@ -68,15 +68,15 @@ def validate_genconfig(s):
 
 
 def generate():
-    charset = assemblecharset()
+    charset = assemble_charset()
     while True:
-        s = rndmcharsfromset(charset)
-        if validate_genconfig(s):
+        s = pick_chars(charset)
+        if validate_modifiers(s):
             break
     return s
 
 
-def assemblecharset():
+def assemble_charset():
     chars = ''
     if cfg.punctuation:
         chars += string.punctuation
@@ -89,7 +89,7 @@ def assemblecharset():
     return chars
 
 
-def rndmcharsfromset(charset):
+def pick_chars(charset):
     s = ''.join(secrets.choice(charset) for _ in range(cfg.length))
     return s
 
