@@ -12,11 +12,13 @@ class Config:
         self.length = self.args.n
         # only touches if one of them is mentioned
         self.punctuation = self.uppercase = self.lowercase = self.digits = True
+        self.specified = False
         if self.args.pun or self.args.upc or self.args.lwc or self.args.digits:
             self.digits = self.args.digits
             self.lowercase = self.args.lwc
             self.uppercase = self.args.upc
             self.punctuation = self.args.pun
+            self.specified = True
 
     @staticmethod
     def createArgs():
@@ -47,9 +49,30 @@ class Config:
         return parser.parse_args()
 
 
+def validate_genconfig(s):
+    if not cfg.specified:
+        return True
+    if cfg.punctuation and not bool([ele for ele in string.punctuation if(ele in s)]):
+        print("punctuation failed")
+        return False
+    if cfg.uppercase and not bool([ele for ele in string.ascii_uppercase if(ele in s)]):
+        print("uc failed")
+        return False
+    if cfg.lowercase and not bool([ele for ele in string.ascii_lowercase if(ele in s)]):
+        print("lc failed")
+        return False
+    if cfg.digits and not bool([ele for ele in string.digits if(ele in s)]):
+        print("digits failed")
+        return False
+    return True
+
+
 def generate():
     charset = assemblecharset()
-    s = rndmcharsfromset(charset)
+    while True:
+        s = rndmcharsfromset(charset)
+        if validate_genconfig(s):
+            break
     return s
 
 
