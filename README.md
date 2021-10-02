@@ -4,7 +4,7 @@ This is a Password generator made with python 3.9. (Also compatible with older V
 ## Installation:
 The Repository contains shell- (for linux) and batch- (for Windows) scripts, which can be added to path in order to excecute ``pwgen(.sh)`` from everywhere. <br>
 It refers to the python-file, so it should stay in the same Directory. <br>
-The module pyperclip is used to copy the password into clipboard. To install it run:
+(Optional:) The module pyperclip is used to copy the password into clipboard. To install it run:
 ```shell
 pip install pyperclip
 ```
